@@ -6,12 +6,13 @@ use rand::Rng;
 
 use crate::{agent_adapter::AgentAdapter, environment::HEIGHT, environment::WIDTH};
 
-pub const COHESION : f64 = 1.0;
+pub const COHESION : f64 = 2.0;
 pub const AVOIDANCE : f64 = 1.0;
 pub const RANDOMNESS : f64 = 1.0;
-pub const CONSISTENCY : f64 = 1.0;
+pub const CONSISTENCY : f64 = 4.0;
 pub const MOMENTUM : f64 = 1.0;
 pub const JUMP : f64 = 0.7;
+pub const NEIGHBOR_DISTANCE : f64 = 10.0;
 
 pub struct FlockerSystem;
 
@@ -125,14 +126,14 @@ impl<'s> System<'s> for FlockerSystem {
 	type SystemData = (
 		WriteStorage<'s, Transform>,
         WriteStorage<'s, AgentAdapter>,
-		WriteExpect<'s, Field2D<AgentAdapter>>,
+        WriteExpect<'s, Field2D<AgentAdapter>>,
 	);
 
 	fn run(&mut self, (mut transforms, mut agent_adapters, mut field): Self::SystemData) {
         // We specify which groups of components we're gonna operate on, by fetching them from their respective
         // storages, similar to a SQL query. The components returned per cycle are owned by the same entity.
 		for(agent_adapter, transform) in (&mut agent_adapters, &mut transforms).join() {
-            let vec = field.get_neighbors_within_distance(agent_adapter.pos, 10.0);
+            let vec = field.get_neighbors_within_distance(agent_adapter.pos, NEIGHBOR_DISTANCE);
             let avoidance = FlockerSystem::avoidance(agent_adapter, &vec);
             let cohesion = FlockerSystem::cohesion(agent_adapter, &vec);
             let randomness = FlockerSystem::randomness();

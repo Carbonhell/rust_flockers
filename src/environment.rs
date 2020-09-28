@@ -19,7 +19,7 @@ pub const WIDTH : f64 = 400.0;
 pub const HEIGHT : f64 = 400.0;
 pub const DISCRETIZATION: f64 = 10.0/1.5;
 pub const TOROIDAL: bool = true;
-pub const NUM_AGENT: u128 = 100;
+pub const NUM_AGENT: u128 = 20000;
 
 pub struct Environment;
 

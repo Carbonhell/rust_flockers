@@ -1,15 +1,6 @@
 extern crate amethyst;
 
-use amethyst::{
-    prelude::*,
-    renderer::{
-        plugins::{RenderFlat2D, RenderToWindow},
-        types::DefaultBackend,
-        RenderingBundle,
-    },
-    utils::application_root_dir,
-    core::transform::TransformBundle,
-};
+use amethyst::{core::transform::TransformBundle, prelude::*, renderer::{RenderingBundle, plugins::{RenderFlat2D, RenderToWindow}, types::DefaultBackend}, utils::application_root_dir, utils::fps_counter::FpsCounterBundle};
 use crate::environment::Environment;
 
 
@@ -42,7 +33,9 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default()),
         )?
         .with_bundle(TransformBundle::new())?
-        .with(systems::FlockerSystem, "flocker_system", &[]);
+        .with_bundle(FpsCounterBundle::default())?
+        .with(systems::FlockerSystem, "flocker_system", &[])
+        .with(systems::FPSSystem{print_elapsed: 0.}, "fps", &[]);
 
     // Run our simulation by setting the initial state to Environment, the one and only state.
     let mut game = Application::new(assets_dir, Environment, game_data)?;
