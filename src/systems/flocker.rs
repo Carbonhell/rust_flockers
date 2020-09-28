@@ -1,18 +1,18 @@
 use std::f64::consts::PI;
 
 use abm::{field2D::Field2D, field2D::toroidal_distance, field2D::toroidal_transform, location::Real2D};
-use amethyst::{core::{Transform}, ecs::{Join, System, WriteExpect, WriteStorage}};
+use amethyst::{core::Transform, ecs::{Join, System, WriteExpect, WriteStorage}};
 use rand::Rng;
 
 use crate::{agent_adapter::AgentAdapter, environment::HEIGHT, environment::WIDTH};
 
-pub const COHESION : f64 = 2.0;
+pub const COHESION : f64 = 0.1;
 pub const AVOIDANCE : f64 = 1.0;
 pub const RANDOMNESS : f64 = 1.0;
-pub const CONSISTENCY : f64 = 4.0;
+pub const CONSISTENCY : f64 = 1.0;
 pub const MOMENTUM : f64 = 1.0;
 pub const JUMP : f64 = 0.7;
-pub const NEIGHBOR_DISTANCE : f64 = 10.0;
+pub const NEIGHBOR_DISTANCE : f64 = 12.5;
 
 pub struct FlockerSystem;
 
